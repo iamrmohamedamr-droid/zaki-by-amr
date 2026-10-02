@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بوابة الذكاء | دليلك لأكثر من 120 أداة AI مجانية</title>
+<style>
+/* ============================================================
+   [1] نظام الألوان
+   ============================================================ */
+:root{
+  --bg:#080a12; --bg2:#0e1220; --card:#12172a; --card2:#1a2138;
+  --line:rgba(148,163,255,.14); --txt:#eef1fa; --muted:#94a0c4;
+  --p1:#6d5cff; --p2:#22d3ee; --p3:#f472b6;
+  --green:#34d399; --amber:#fbbf24; --red:#f87171;
+  --grad:linear-gradient(90deg,var(--p1),var(--p2));
+}
+body.light-mode{
+  --bg:#f4f6fb; --bg2:#e9edf7; --card:#ffffff; --card2:#f1f4fb;
+  --line:rgba(60,80,180,.12); --txt:#0f1533; --muted:#5a6386;
+}
+
+/* ============================================================
+   [2] تصفير المتصفحات
+   ============================================================ */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Segoe UI",Tahoma,"Noto Kufi Arabic",Arial,sans-serif;
+  background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden;
+  transition:background .3s,color .3s;
+}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--p1);color:#fff}
+::-webkit-scrollbar{width:10px;height:8px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:#2a3355;border-radius:8px}
+
+/* ============================================================
+   [3] توهجات الخلفية
+   ============================================================ */
+.glow{position:fixed;border-radius:50%;filter:blur(120px);opacity:.3;z-index:0;pointer-events:none}
+.g1{width:520px;height:520px;background:#5b3df5;top:-170px;right:-130px}
+.g2{width:420px;height:420px;background:#0ea5b7;bottom:-140px;left:-110px}
+.g3{width:320px;height:320px;background:#f43f8e;top:42%;left:32%;opacity:.13}
+
+/* ============================================================
+   [4] شاشة تسجيل الدخول الإجبارية
+   ============================================================ */
+#loginScreen{
+  position:fixed;inset:0;z-index:9999;                     /* [4.1] تغطي كل الشاشة */
+  background:linear-gradient(135deg,#080a12,#0e1220);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;overflow-y:auto;
+}
+body.light-mode #loginScreen{background:linear-gradient(135deg,#eef1fa,#dfe5f3)}
+#loginScreen.hide{display:none}                            /* [4.2] إخفاء بعد الدخول */
+
+.login-card{
+  background:var(--card);border:1px solid var(--line);border-radius:24px;
+  padding:40px;max-width:460px;width:100%;
+  box-shadow:0 30px 90px rgba(0,0,0,.7);
+  animation:slideUp .5s cubic-bezier(.2,.9,.3,1.2);
+  position:relative;z-index:1;
+}
+@keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+.login-logo{
+  width:72px;height:72px;border-radius:20px;margin:0 auto 18px;
+  display:grid;place-items:center;font-size:36px;
+  background:linear-gradient(135deg,var(--p1),var(--p2));
+  box-shadow:0 0 40px rgba(109,92,255,.6);
+}
+.login-card h2{text-align:center;font-size:24px;margin-bottom:8px}
+.login-card .lsub{text-align:center;color:var(--muted);font-size:13px;margin-bottom:26px;line-height:1.7}
+
+.login-card label{display:block;font-size:13px;color:var(--muted);margin:16px 0 6px}
+.login-card input{
+  width:100%;padding:13px 16px;border-radius:12px;border:1px solid var(--line);
+  background:var(--card2);color:var(--txt);font-family:inherit;font-size:14px;outline:none;transition:.2s;
+}
+.login-card input:focus{border-color:var(--p1);box-shadow:0 0 0 4px rgba(109,92,255,.18)}
+
+/* [4.3] اختيار نوع الحساب */
+.acc-choice{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.acc-choice button{
+  padding:14px 10px;border-radius:12px;border:1px solid var(--line);
+  background:var(--card2);color:var(--txt);cursor:pointer;
+  font-family:inherit;font-size:13px;font-weight:600;transition:.2s;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+}
+.acc-choice button .em{font-size:22px}
+.acc-choice button:hover{border-color:var(--p1);transform:translateY(-2px)}
+.acc-choice button.active{
+  border-color:var(--p1);background:rgba(109,92,255,.15);
+  box-shadow:0 0 0 3px rgba(109,92,255,.15);
+}
+
+.login-btn{
+  width:100%;margin-top:22px;padding:15px;border-radius:13px;border:none;cursor:pointer;
+  background:var(--grad);color:#fff;font-size:15px;font-weight:800;font-family:inherit;
+  transition:.2s;
+}
+.login-btn:hover{filter:brightness(1.15);transform:translateY(-2px);box-shadow:0 10px 30px rgba(109,92,255,.4)}
+
+.login-hint{
+  margin-top:16px;font-size:11px;color:var(--muted);text-align:center;line-height:1.8;
+  padding:12px;background:var(--card2);border-radius:10px;border:1px solid var(--line);
+}
+.login-hint b{color:var(--p2)}
+
+.login-err{
+  color:var(--red);font-size:13px;text-align:center;margin-top:12px;
+  display:none;padding:10px;border-radius:8px;background:rgba(248,113,113,.1);
+  border:1px solid rgba(248,113,113,.3);
+}
+.login-err.show{display:block}
+
+/* ============================================================
+   [5] شريط التنقل العلوي
+   ============================================================ */
+header{
+  position:sticky;top:0;z-index:100;
+  backdrop-filter:blur(16px);
+  background:rgba(8,10,18,.78);
+  border-bottom:1px solid var(--line);
+}
+body.light-mode header{background:rgba(255,255,255,.85)}
+
+.hwrap{
+  max-width:1280px;margin:auto;display:flex;align-items:center;
+  gap:14px;padding:12px 20px;flex-wrap:wrap;
+}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;cursor:pointer;flex-shrink:0}
+.logo .chip{
+  width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:20px;
+  background:linear-gradient(135deg,var(--p1),var(--p2));
+  box-shadow:0 0 24px rgba(109,92,255,.55);
+}
+.logo span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+.nav-search{flex:1;min-width:180px;max-width:420px;position:relative}
+.nav-search input{
+  width:100%;padding:10px 42px 10px 14px;border-radius:12px;
+  border:1px solid var(--line);background:rgba(255,255,255,.04);
+  color:var(--txt);font-size:14px;font-family:inherit;outline:none;transition:.2s;
+}
+body.light-mode .nav-search input{background:rgba(0,0,0,.03)}
+.nav-search input:focus{border-color:var(--p1);box-shadow:0 0 0 4px rgba(109,92,255,.18)}
+.nav-search .ic{position:absolute;top:50%;right:14px;transform:translateY(-50%);opacity:.55;pointer-events:none}
+
+.nav-actions{display:flex;gap:8px;flex-shrink:0;align-items:center}
+.icon-btn{
+  position:relative;border:1px solid var(--line);background:rgba(255,255,255,.04);
+  color:var(--muted);width:42px;height:42px;border-radius:12px;cursor:pointer;
+  font-size:17px;transition:.2s;display:grid;place-items:center;
+}
+body.light-mode .icon-btn{background:rgba(0,0,0,.03)}
+.icon-btn:hover{color:var(--txt);border-color:var(--p1);transform:translateY(-2px)}
+.icon-btn .cnt{
+  position:absolute;top:-7px;left:-7px;min-width:18px;height:18px;padding:0 4px;
+  border-radius:99px;background:var(--grad);color:#fff;font-size:11px;font-weight:800;
+  display:grid;place-items:center;
+}
+.user-badge{
+  display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:99px;
+  background:linear-gradient(90deg,rgba(109,92,255,.2),rgba(34,211,238,.15));
+  border:1px solid rgba(109,92,255,.4);font-size:12px;font-weight:700;color:var(--p2);
+  cursor:pointer;transition:.2s;white-space:nowrap;
+}
+.user-badge.admin{
+  background:linear-gradient(90deg,rgba(251,191,36,.25),rgba(244,114,182,.18));
+  border-color:rgba(251,191,36,.5);color:#fbbf24;
+}
+.user-badge:hover{transform:translateY(-2px);filter:brightness(1.15)}
+
+.cat-bar{
+  max-width:1280px;margin:auto;padding:0 20px 12px;display:flex;gap:8px;overflow-x:auto;
+  scrollbar-width:none;
+}
+.cat-bar::-webkit-scrollbar{display:none}
+.pill{
+  flex-shrink:0;border:1px solid var(--line);background:rgba(255,255,255,.03);
+  color:var(--muted);padding:8px 16px;border-radius:99px;cursor:pointer;
+  font-size:13px;font-family:inherit;transition:.2s;white-space:nowrap;
+}
+body.light-mode .pill{background:rgba(0,0,0,.03)}
+.pill:hover{color:var(--txt);border-color:var(--p1);transform:translateY(-2px)}
+.pill.on{background:var(--grad);color:#fff;border-color:transparent;font-weight:700;box-shadow:0 6px 18px rgba(109,92,255,.4)}
+
+/* ============================================================
+   [6] قسم الترحيب
+   ============================================================ */
+.hero{max-width:1200px;margin:auto;padding:64px 20px 36px;text-align:center;position:relative;z-index:1}
+.welcome-msg{
+  display:inline-block;padding:8px 18px;border-radius:99px;font-size:14px;
+  background:linear-gradient(90deg,rgba(109,92,255,.15),rgba(34,211,238,.1));
+  border:1px solid rgba(109,92,255,.3);margin-bottom:16px;
+}
+.welcome-msg b{color:var(--p2)}
+.badge{
+  display:inline-block;padding:7px 16px;border:1px solid var(--line);border-radius:99px;
+  background:var(--card);color:var(--muted);font-size:13px;margin-bottom:22px;
+}
+.badge b{color:var(--green)}
+h1{font-size:clamp(30px,5.5vw,56px);line-height:1.35;font-weight:900}
+h1 .grad{
+  background:linear-gradient(90deg,var(--p1),var(--p2),var(--p3));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.sub{color:var(--muted);font-size:clamp(14px,2vw,17px);margin:18px auto 30px;max-width:620px;line-height:1.9}
+.searchbox{max-width:620px;margin:auto;position:relative}
+.searchbox input{
+  width:100%;padding:17px 54px 17px 20px;border-radius:16px;
+  border:1px solid var(--line);background:var(--card);color:var(--txt);
+  font-size:16px;font-family:inherit;outline:none;transition:.2s;
+}
+.searchbox input:focus{border-color:var(--p1);box-shadow:0 0 0 5px rgba(109,92,255,.16)}
+.searchbox .ic{position:absolute;top:50%;right:20px;transform:translateY(-50%);font-size:18px;opacity:.55;pointer-events:none}
+
+.stats{display:flex;justify-content:center;gap:44px;margin-top:36px;flex-wrap:wrap}
+.stat b{font-size:28px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat div{color:var(--muted);font-size:13px;margin-top:4px}
+
+/* ============================================================
+   [7] الحاويات
+   ============================================================ */
+.wrap{max-width:1280px;margin:auto;padding:26px 20px 70px;position:relative;z-index:1}
+.sec-title{display:flex;align-items:center;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+.sec-title h2{font-size:26px;font-weight:800}
+.sec-title .cnt{
+  background:var(--card2);border:1px solid var(--line);padding:4px 12px;border-radius:99px;
+  font-size:13px;color:var(--muted);
+}
+.sec-sub{color:var(--muted);font-size:14px;margin-bottom:24px}
+
+/* ============================================================
+   [8] شبكة الأقسام
+   ============================================================ */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:18px}
+.cat{
+  background:linear-gradient(160deg,var(--card),var(--bg2));
+  border:1px solid var(--line);border-radius:20px;padding:24px;cursor:pointer;
+  transition:.25s;position:relative;overflow:hidden;
+}
+.cat::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(400px 140px at 85% -20%,rgba(109,92,255,.2),transparent);
+  opacity:0;transition:.25s;
+}
+.cat:hover{transform:translateY(-6px);border-color:var(--p1);box-shadow:0 20px 44px rgba(0,0,0,.45)}
+.cat:hover::after{opacity:1}
+.cat .ic{
+  width:54px;height:54px;border-radius:14px;display:grid;place-items:center;font-size:25px;margin-bottom:14px;
+  background:var(--card2);border:1px solid var(--line);
+}
+.cat h3{font-size:18px;margin-bottom:6px}
+.cat p{color:var(--muted);font-size:13px;line-height:1.7;min-height:44px}
+.cat .meta{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:12px;color:var(--muted)}
+.cat .meta .go{color:var(--p2);font-weight:700}
+
+/* ============================================================
+   [9] شريط الأدوات
+   ============================================================ */
+.toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:24px}
+.backbtn{
+  background:var(--card);border:1px solid var(--line);color:var(--txt);padding:10px 18px;
+  border-radius:12px;cursor:pointer;font-family:inherit;font-size:14px;transition:.2s;flex-shrink:0;
+}
+.backbtn:hover{border-color:var(--p1);color:var(--p2)}
+.toolbar input{
+  flex:1;min-width:180px;padding:11px 16px;border-radius:12px;border:1px solid var(--line);
+  background:var(--card);color:var(--txt);font-family:inherit;font-size:14px;outline:none;transition:.2s;
+}
+.toolbar input:focus{border-color:var(--p1);box-shadow:0 0 0 4px rgba(109,92,255,.15)}
+.filters{display:flex;gap:8px}
+.fbtn{
+  border:1px solid var(--line);background:transparent;color:var(--muted);padding:8px 14px;
+  border-radius:99px;cursor:pointer;font-size:13px;font-family:inherit;transition:.2s;
+}
+.fbtn.on{background:var(--grad);color:#fff;border-color:transparent;font-weight:700}
+
+/* ============================================================
+   [10] شبكة الأدوات
+   ============================================================ */
+.tool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+.tool{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;
+  display:flex;flex-direction:column;gap:10px;transition:.22s;position:relative;
+}
+.tool:hover{transform:translateY(-5px);border-color:#3a4470;box-shadow:0 16px 34px rgba(0,0,0,.4)}
+.tool .top{display:flex;align-items:flex-start;gap:12px}
+.logo-box{
+  width:52px;height:52px;border-radius:14px;flex-shrink:0;background:#fff;display:grid;place-items:center;
+  border:1px solid #e5e8f2;box-shadow:0 4px 14px rgba(0,0,0,.35);transition:.25s;overflow:hidden;
+}
+.logo-box img{width:32px;height:32px;object-fit:contain}
+.tool:hover .logo-box{transform:scale(1.08) rotate(-3deg);box-shadow:0 8px 22px rgba(109,92,255,.4)}
+.avatar{
+  width:46px;height:46px;border-radius:13px;flex-shrink:0;display:grid;place-items:center;
+  font-size:21px;font-weight:800;background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;
+}
+.tool h4{font-size:16px}
+.tool .catline{font-size:11px;color:var(--muted)}
+.tool p{color:var(--muted);font-size:13px;line-height:1.75;flex:1}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:11px;padding:4px 10px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
+.tag.free{color:var(--green);border-color:rgba(52,211,153,.35);background:rgba(52,211,153,.08)}
+.tag.part{color:var(--amber);border-color:rgba(251,191,36,.35);background:rgba(251,191,36,.08)}
+.tag.verified{
+  color:#fbbf24;border-color:rgba(251,191,36,.55);
+  background:linear-gradient(90deg,rgba(251,191,36,.15),rgba(244,114,182,.12));
+  font-weight:700;animation:pulseGold 2.5s ease-in-out infinite;
+}
+@keyframes pulseGold{
+  0%,100%{ box-shadow:0 0 0 0 rgba(251,191,36,.4); }
+  50%    { box-shadow:0 0 0 6px rgba(251,191,36,0); }
+}
+.tool.featured{
+  border-color:rgba(251,191,36,.35);
+  background:linear-gradient(160deg,var(--card),rgba(251,191,36,.04));
+}
+.tool.featured:hover{border-color:rgba(251,191,36,.7);box-shadow:0 16px 34px rgba(251,191,36,.15)}
+
+.tool .actions{display:flex;gap:8px;margin-top:4px}
+.visit{
+  flex:1;text-align:center;padding:10px;border-radius:11px;background:var(--grad);
+  color:#fff;font-size:13px;font-weight:700;transition:.2s;
+}
+.visit:hover{filter:brightness(1.18);transform:translateY(-1px)}
+.fav{
+  width:42px;border:1px solid var(--line);background:var(--card2);border-radius:11px;cursor:pointer;
+  font-size:16px;transition:.2s;color:var(--muted);
+}
+.fav.on{color:#f472b6;border-color:rgba(244,114,182,.5);background:rgba(244,114,182,.12)}
+.empty{text-align:center;color:var(--muted);padding:60px 0;grid-column:1/-1;font-size:15px}
+
+/* ============================================================
+   [11] لوحة الأدمن
+   ============================================================ */
+.admin-hero{
+  background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(244,114,182,.1));
+  border:1px solid rgba(251,191,36,.4);border-radius:22px;padding:30px;margin-bottom:26px;
+  position:relative;overflow:hidden;
+}
+.admin-hero::before{
+  content:"👑";position:absolute;left:20px;top:50%;transform:translateY(-50%);
+  font-size:100px;opacity:.08;
+}
+.admin-hero h2{font-size:28px;margin-bottom:6px}
+.admin-hero p{color:var(--muted);font-size:14px}
+
+.admin-kpis{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:16px;margin-bottom:26px;
+}
+.kpi{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:22px;text-align:center;transition:.25s;
+}
+.kpi:hover{transform:translateY(-4px);border-color:var(--p1);box-shadow:0 14px 30px rgba(0,0,0,.35)}
+.kpi .em{font-size:30px;margin-bottom:10px}
+.kpi b{
+  font-size:32px;display:block;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.kpi div{color:var(--muted);font-size:13px;margin-top:6px}
+
+.admin-tabs{
+  display:flex;gap:8px;margin-bottom:22px;border-bottom:1px solid var(--line);
+  overflow-x:auto;scrollbar-width:none;
+}
+.admin-tabs::-webkit-scrollbar{display:none}
+. admin-tab,.admin-tab{
+  padding:12px 22px;border:none;background:transparent;color:var(--muted);
+  font-family:inherit;font-size:14px;cursor:pointer;border-bottom:3px solid transparent;
+  transition:.2s;white-space:nowrap;font-weight:600;
+}
+.admin-tab:hover{color:var(--txt)}
+.admin-tab.on{color:var(--p2);border-bottom-color:var(--p2)}
+
+.admin-panel{
+  background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;
+}
+
+.admin-table{
+  width:100%;border-collapse:collapse;font-size:13px;
+}
+.admin-table th{
+  text-align:right;padding:14px 12px;color:var(--muted);
+  border-bottom:2px solid var(--line);font-weight:700;font-size:12px;
+  text-transform:uppercase;letter-spacing:.5px;
+}
+.admin-table td{padding:14px 12px;border-bottom:1px solid var(--line)}
+.admin-table tr:hover td{background:rgba(109,92,255,.05)}
+.admin-table tr:last-child td{border-bottom:none}
+
+.row-avatar{
+  width:36px;height:36px;border-radius:10px;display:inline-grid;place-items:center;
+  background:var(--grad);color:#fff;font-weight:800;font-size:15px;margin-left:10px;
+}
+.type-badge{
+  display:inline-block;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:700;
+}
+.type-badge.school{background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.35)}
+.type-badge.paid{background:rgba(109,92,255,.15);color:#6d5cff;border:1px solid rgba(109,92,255,.35)}
+.type-badge.admin{background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.5)}
+
+.del-btn{
+  padding:6px 12px;border-radius:8px;border:1px solid rgba(248,113,113,.4);
+  background:rgba(248,113,113,.1);color:#f87171;cursor:pointer;font-size:12px;
+  font-family:inherit;transition:.2s;
+}
+.del-btn:hover{background:rgba(248,113,113,.25);transform:scale(1.05)}
+
+.admin-tools-bar{
+  display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;align-items:center;
+}
+.admin-tools-bar input{
+  flex:1;min-width:200px;padding:11px 16px;border-radius:11px;border:1px solid var(--line);
+  background:var(--card2);color:var(--txt);font-family:inherit;font-size:13px;outline:none;
+}
+.admin-tools-bar input:focus{border-color:var(--p1)}
+.export-btn{
+  padding:11px 18px;border-radius:11px;border:1px solid var(--line);
+  background:var(--card2);color:var(--txt);cursor:pointer;font-family:inherit;
+  font-size:13px;font-weight:600;transition:.2s;
+}
+.export-btn:hover{border-color:var(--green);color:var(--green);transform:translateY(-2px)}
+
+.activity-row{
+  display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line);
+  align-items:center;
+}
+.activity-row:last-child{border-bottom:none}
+.act-icon{
+  width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
+  font-size:18px;background:var(--card2);border:1px solid var(--line);flex-shrink:0;
+}
+.act-icon.login{background:rgba(52,211,153,.15);border-color:rgba(52,211,153,.3)}
+.act-icon.visit{background:rgba(34,211,238,.15);border-color:rgba(34,211,238,.3)}
+.act-icon.signup{background:rgba(109,92,255,.15);border-color:rgba(109,92,255,.3)}
+.act-icon.fav{background:rgba(244,114,182,.15);border-color:rgba(244,114,182,.3)}
+.act-body{flex:1}
+.act-body b{font-size:14px}
+.act-body div{color:var(--muted);font-size:12px;margin-top:3px}
+.act-time{color:var(--muted);font-size:11px;white-space:nowrap}
+
+.chart-bar{
+  display:flex;align-items:center;gap:12px;margin-bottom:12px;
+}
+.chart-bar .lbl{min-width:130px;font-size:13px;font-weight:600}
+.chart-bar .track{flex:1;height:10px;background:var(--card2);border-radius:99px;overflow:hidden}
+.chart-bar .fill{
+  height:100%;background:var(--grad);border-radius:99px;
+  transition:width .8s cubic-bezier(.2,.9,.3,1);
+}
+.chart-bar .val{min-width:60px;text-align:left;color:var(--p2);font-size:13px;font-weight:700}
+
+/* ============================================================
+   [12] التذييل وزر أعلى
+   ============================================================ */
+footer{border-top:1px solid var(--line);padding:30px 20px;text-align:center;color:var(--muted);font-size:13px;position:relative;z-index:1}
+.toTop{
+  position:fixed;bottom:24px;left:24px;width:46px;height:46px;border-radius:50%;
+  border:1px solid var(--line);background:var(--card2);color:var(--txt);cursor:pointer;
+  font-size:18px;z-index:90;display:none;box-shadow:0 8px 24px rgba(0,0,0,.45);transition:.2s;
+}
+.toTop.show{display:block}
+.toTop:hover{border-color:var(--p1);transform:translateY(-3px)}
+
+/* ============================================================
+   [13] التجاوب
+   ============================================================ */
+@media(max-width:768px){
+  .nav-search{order:3;max-width:none;flex-basis:100%}
+  .stats{gap:26px}
+  .login-card{padding:28px 22px}
+  .user-badge{font-size:11px;padding:6px 10px}
+  .admin-table{font-size:11px}
+  .admin-table th,.admin-table td{padding:10px 8px}
+}
+</style>
+</head>
+<body>
+<div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
+
+<!-- ============================================================
+     [14] شاشة تسجيل الدخول الإجبارية
+     ============================================================ -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">🧠</div>
+    <h2>بوابة <span style="background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent">الذكاء</span></h2>
+    <p class="lsub">سجّل دخولك للوصول إلى أكثر من 125 أداة ذكاء اصطناعي</p>
+
+    <!-- [14.1] اختيار نوع الحساب -->
+    <label>اختر نوع الحساب</label>
+    <div class="acc-choice">
+      <button id="accSchool" onclick="pickAccount('school')">
+        <span class="em">🏫</span> حساب الوزارة
+      </button>
+      <button id="accPaid" onclick="pickAccount('paid')">
+        <span class="em">💎</span> حساب مدفوع
+      </button>
+    </div>
+
+    <!-- [14.2] بيانات الدخول -->
+    <label>اسم المستخدم أو البريد</label>
+    <input id="loginUser" type="text" placeholder="مثال: ahmed@edu.gov" autocomplete="off">
+
+    <label>كلمة المرور</label>
+    <input id="loginPass" type="password" placeholder="••••••••" autocomplete="off">
+
+    <!-- [14.3] رسالة الخطأ -->
+    <div class="login-err" id="loginErr"></div>
+
+    <button class="login-btn" onclick="doLogin()">دخول ←</button>
+
+    <div class="login-hint">
+      💡 <b>للتجربة:</b> اختر أي نوع حساب وأدخل أي اسم وكلمة مرور<br>
+      🔑 <b>للدخول كأدمن:</b> اكتب اسم المستخدم <b>iamrtony</b> وكلمة المرور <b>1234</b>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     [15] شريط التنقل العلوي
+     ============================================================ -->
+<header id="mainHeader" style="display:none">
+  <div class="hwrap">
+    <div class="logo" onclick="goHome()" title="الرئيسية">
+      <div class="chip">🧠</div>
+      <div>بوابة <span>الذكاء</span></div>
+    </div>
+    <div class="nav-search">
+      <input id="navSearch" type="text" placeholder="🔍 ابحث في كل الأدوات...">
+      <span class="ic">⌕</span>
+    </div>
+    <div class="nav-actions">
+      <!-- [15.1] شارة المستخدم -->
+      <div class="user-badge" id="userBadge" onclick="toggleUserMenu()">👤</div>
+      <!-- [15.2] زر الأدمن — يظهر فقط للأدمن -->
+      <button class="icon-btn" id="adminBtn" onclick="showView('admin')" title="لوحة الأدمن" style="display:none">👑</button>
+      <button class="icon-btn" id="themeBtn" onclick="toggleTheme()" title="الوضع الليلي/النهاري">🌙</button>
+      <button class="icon-btn" onclick="randomTool()" title="أداة عشوائية">🎲</button>
+      <button class="icon-btn" id="navFav" onclick="showView('fav')" title="المفضلة">
+        ❤️<span class="cnt" id="favBadge">0</span>
+      </button>
+      <button class="icon-btn" onclick="showView('stats')" title="إحصائياتي">📊</button>
+      <button class="icon-btn" onclick="logout()" title="تسجيل خروج">🚪</button>
+    </div>
+  </div>
+  <nav class="cat-bar" id="catBar"></nav>
+</header>
+
+<!-- ============================================================
+     [16] الصفحة الرئيسية
+     ============================================================ -->
+<section id="view-home" style="display:none">
+  <div class="hero">
+    <!-- [16.1] رسالة ترحيب باسم المستخدم -->
+    <div class="welcome-msg">أهلاً <b id="welcomeName">بك</b> 👋</div>
+    <div class="badge">🔥 أكثر من <b id="totalTools">125</b> أداة ذكاء اصطناعي في مكان واحد</div>
+    <h1>كل أدوات <span class="grad">الذكاء الاصطناعي</span><br>في بوابة واحدة</h1>
+    <p class="sub">أنشئ صور، فيديوهات، نصوص، موسيقى، أكواد برمجة وعروض تقديمية — كلها بضغطة واحدة.</p>
+    <div class="searchbox">
+      <input id="globalSearch" type="text" placeholder="🔍 ابحث عن أي أداة...">
+      <span class="ic">⌕</span>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="stTools">0</b><div>أداة ذكية</div></div>
+      <div class="stat"><b id="stCats">0</b><div>قسم مختلف</div></div>
+      <div class="stat"><b>100%</b><div>مجانية للاستخدام</div></div>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="sec-title"><h2>اختار القسم</h2><span class="cnt" id="catCount"></span></div>
+    <div class="sec-sub">اضغط على أي قسم لعرض كل الأدوات الخاصة بيه</div>
+    <div class="cat-grid" id="catGrid"></div>
+  </div>
+  <div class="wrap" id="searchResults" style="display:none">
+    <div class="sec-title"><h2>🔍 نتائج البحث</h2><span class="cnt" id="searchCount"></span></div>
+    <div class="tool-grid" id="searchGrid"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     [17] صفحة القسم
+     ============================================================ -->
+<section id="view-cat" style="display:none">
+  <div class="wrap">
+    <div class="toolbar">
+      <button class="backbtn" onclick="goHome()">→ رجوع للأقسام</button>
+      <input id="catSearch" type="text" placeholder="🔍 ابحث داخل القسم...">
+      <div class="filters">
+        <button class="fbtn on" data-f="all" onclick="setFilter('all',this)">الكل</button>
+        <button class="fbtn" data-f="free" onclick="setFilter('free',this)">✓ مجاني بالكامل</button>
+      </div>
+    </div>
+    <div class="sec-title"><h2 id="catTitle"></h2><span class="cnt" id="catCnt"></span></div>
+    <div class="sec-sub" id="catDesc"></div>
+    <div class="tool-grid" id="catGrid"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     [18] صفحة المفضلة
+     ============================================================ -->
+<section id="view-fav" style="display:none">
+  <div class="wrap">
+    <div class="toolbar"><button class="backbtn" onclick="goHome()">→ رجوع</button></div>
+    <div class="sec-title"><h2>❤️ أدواتك المفضلة</h2><span class="cnt" id="favCnt"></span></div>
+    <div class="sec-sub">الأدوات اللي ضفتها للمفضلة بتتخزن على جهازك</div>
+    <div class="tool-grid" id="favGrid"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     [19] صفحة إحصائياتي
+     ============================================================ -->
+<section id="view-stats" style="display:none">
+  <div class="wrap">
+    <div class="toolbar">
+      <button class="backbtn" onclick="goHome()">→ رجوع</button>
+      <button class="backbtn" onclick="resetMyStats()" style="color:#f472b6">🗑 مسح إحصائياتي</button>
+    </div>
+    <div class="sec-title"><h2>📊 إحصائيات استخدامي</h2></div>
+    <div class="sec-sub">الأدوات اللي فتحتها — محفوظة على جهازك</div>
+    <div id="statsBox"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     [20] لوحة الأدمن — للمستخدم iamrtony فقط
+     ============================================================ -->
+<section id="view-admin" style="display:none">
+  <div class="wrap">
+    <div class="toolbar">
+      <button class="backbtn" onclick="goHome()">→ رجوع</button>
+      <button class="backbtn" onclick="exportAllData()" style="color:#34d399">📥 تصدير CSV</button>
+      <button class="backbtn" onclick="clearAllData()" style="color:#f87171">🗑 مسح كل البيانات</button>
+    </div>
+
+    <!-- [20.1] الترحيب بالأدمن -->
+    <div class="admin-hero">
+      <h2>👑 لوحة تحكم الأدمن</h2>
+      <p>مرحبًا <b style="color:#fbbf24">iamrtony</b> — عندك السيطرة الكاملة على الموقع</p>
+    </div>
+
+    <!-- [20.2] مؤشرات الأداء الرئيسية -->
+    <div class="admin-kpis" id="adminKpis"></div>
+
+    <!-- [20.3] التبويبات -->
+    <div class="admin-tabs">
+      <button class="admin-tab on" data-tab="users" onclick="switchTab('users',this)">👥 المستخدمون</button>
+      <button class="admin-tab" data-tab="tools" onclick="switchTab('tools',this)">🛠️ الأدوات الأكثر استخدامًا</button>
+      <button class="admin-tab" data-tab="activity" onclick="switchTab('activity',this)">📋 سجل النشاطات</button>
+      <button class="admin-tab" data-tab="cats" onclick="switchTab('cats',this)">📂 الأقسام</button>
+    </div>
+
+    <!-- [20.4] محتوى التبويبات -->
+    <div class="admin-panel" id="adminContent"></div>
+  </div>
+</section>
+
+<footer id="mainFooter" style="display:none">🧠 بوابة الذكاء — دليلك الشامل لأدوات الذكاء الاصطناعي · صُنع بـ ❤️ للمسابقة</footer>
+<button class="toTop" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+/* ================================================================
+   [21] البيانات
+   ================================================================ */
+const CATS = {
+  chat:  {name:"محادثة ومساعدات", icon:"💬", desc:"شات بوتات ومساعدات ذكية"},
+  text:  {name:"كتابة ونصوص", icon:"✍️", desc:"أدوات الكتابة والتدقيق"},
+  image: {name:"إنشاء وتعديل صور", icon:"🎨", desc:"حوّل كلماتك لصور مذهلة"},
+  video: {name:"إنشاء فيديوهات", icon:"🎬", desc:"فيديوهات بجودة عالية"},
+  audio: {name:"صوت وموسيقى", icon:"🎵", desc:"أصوات واقعية وأغانٍ كاملة"},
+  code:  {name:"برمجة وأكواد", icon:"💻", desc:"كتابة وتصحيح الأكواد"},
+  docs:  {name:"مستندات وعروض", icon:"📄", desc:"ملخصات PDF وعروض تقديمية"},
+  design:{name:"تصميم ومواقع", icon:"🖌️", desc:"شعارات ومواقع جاهزة"},
+  av3d:  {name:"أفاتار و3D", icon:"🧍", desc:"شخصيات افتراضية ونماذج 3D"},
+};
+
+/* [21.1] الأدوات — مضاف فيها fedu.ai كأداة موثّقة */
+const TOOLS = [
+ {n:"ChatGPT", d:"أشهر مساعد ذكي للمحادثة والكتابة", u:"https://chatgpt.com", c:"chat", f:0},
+ {n:"Claude", d:"مساعد ذكي قوي في الكتابة الطويلة", u:"https://claude.ai", c:"chat", f:0},
+ {n:"Google Gemini", d:"مساعد جوجل المتكامل مع خدماتها", u:"https://gemini.google.com", c:"chat", f:0},
+ {n:"Grok", d:"شات بوت xAI بأسلوب مباشر", u:"https://grok.com", c:"chat", f:0},
+ {n:"DeepSeek", d:"نموذج صيني قوي ومجاني", u:"https://chat.deepseek.com", c:"chat", f:1},
+ {n:"Le Chat", d:"شات بوت أوروبي سريع مجاني", u:"https://chat.mistral.ai", c:"chat", f:1},
+ {n:"Perplexity", d:"محرك بحث ذكي بمصادر موثقة", u:"https://www.perplexity.ai", c:"chat", f:0},
+ {n:"Microsoft Copilot", d:"مساعد مايكروسوفت المجاني", u:"https://copilot.microsoft.com", c:"chat", f:0},
+ {n:"Poe", d:"يجمع GPT وClaude في مكان واحد", u:"https://poe.com", c:"chat", f:0},
+ {n:"Character.AI", d:"شخصيات افتراضية للمحادثة", u:"https://character.ai", c:"chat", f:0},
+ {n:"HuggingChat", d:"شات مفتوح المصدر من Hugging Face", u:"https://huggingface.co/chat", c:"chat", f:1},
+ {n:"Kimi", d:"مساعد صيني لقراءة الملفات الطويلة", u:"https://www.kimi.com", c:"chat", f:1},
+ {n:"Qwen Chat", d:"شات مجاني من علي بابا", u:"https://chat.qwen.ai", c:"chat", f:1},
+ {n:"Pi", d:"مساعد شخصي ودود", u:"https://pi.ai", c:"chat", f:1},
+ {n:"You.com", d:"بحث ذكي + شات بوت", u:"https://you.com", c:"chat", f:0},
+ {n:"Grammarly", d:"تدقيق إملائي احترافي", u:"https://www.grammarly.com", c:"text", f:0},
+ {n:"QuillBot", d:"إعادة صياغة وتلخيص النصوص", u:"https://quillbot.com", c:"text", f:0},
+ {n:"Rytr", d:"كتابة محتوى بأكثر من 30 لغة", u:"https://rytr.me", c:"text", f:0},
+ {n:"Copy.ai", d:"نصوص إعلانية في ثوانٍ", u:"https://www.copy.ai", c:"text", f:0},
+ {n:"Writesonic", d:"كتابة مقالات مع تحسين SEO", u:"https://writesonic.com", c:"text", f:0},
+ {n:"Wordtune", d:"إعادة صياغة بأنماط مختلفة", u:"https://www.wordtune.com", c:"text", f:0},
+ {n:"HyperWrite", d:"مساعد كتابة يتعلم أسلوبك", u:"https://www.hyperwriteai.com", c:"text", f:0},
+ {n:"Jenni AI", d:"كتابة الأبحاث العلمية", u:"https://jenni.ai", c:"text", f:0},
+ {n:"TextCortex", d:"كتابة نصوص مع ذاكرة شخصية", u:"https://textcortex.com", c:"text", f:0},
+ {n:"Sudowrite", d:"كتابة إبداعية وقصصية", u:"https://www.sudowrite.com", c:"text", f:0},
+ {n:"Microsoft Designer", d:"إنشاء صور مجاني من مايكروسوفت", u:"https://designer.microsoft.com", c:"image", f:1},
+ {n:"Ideogram", d:"صور تحتوي نصوص وشعارات", u:"https://ideogram.ai", c:"image", f:0},
+ {n:"Leonardo AI", d:"توليد صور احترافية", u:"https://leonardo.ai", c:"image", f:0},
+ {n:"Playground", d:"إنشاء وتعديل الصور", u:"https://playground.com", c:"image", f:0},
+ {n:"Adobe Firefly", d:"توليد صور من أدوبي", u:"https://firefly.adobe.com", c:"image", f:0},
+ {n:"Recraft", d:"توليد صور وفيكتور", u:"https://www.recraft.ai", c:"image", f:0},
+ {n:"Krea AI", d:"توليد صور لحظي", u:"https://www.krea.ai", c:"image", f:0},
+ {n:"getimg.ai", d:"صور بـ Stable Diffusion", u:"https://getimg.ai", c:"image", f:0},
+ {n:"NightCafe", d:"توليد صور بعدة نماذج", u:"https://creator.nightcafe.studio", c:"image", f:0},
+ {n:"Mage.space", d:"صور مجاني بدون تسجيل", u:"https://www.mage.space", c:"image", f:1},
+ {n:"Craiyon", d:"مجاني تمامًا", u:"https://www.craiyon.com", c:"image", f:1},
+ {n:"Perchance AI", d:"صور مجانية بدون حدود", u:"https://perchance.org/ai-text-to-image-generator", c:"image", f:1},
+ {n:"Pollinations", d:"مفتوح المصدر بدون قيود", u:"https://pollinations.ai", c:"image", f:1},
+ {n:"DeepAI", d:"أدوات AI متنوعة مجانية", u:"https://deepai.org", c:"image", f:1},
+ {n:"Artbreeder", d:"دمج وجوه وشخصيات", u:"https://www.artbreeder.com", c:"image", f:0},
+ {n:"Fotor", d:"تصميم مع مولد AI", u:"https://www.fotor.com", c:"image", f:0},
+ {n:"Canva AI", d:"تصميمات مع أدوات AI", u:"https://www.canva.com", c:"image", f:0},
+ {n:"remove.bg", d:"إزالة خلفية في 5 ثوانٍ", u:"https://www.remove.bg", c:"image", f:1},
+ {n:"Clipdrop", d:"إزالة خلفيات وتحسين صور", u:"https://clipdrop.co", c:"image", f:0},
+ {n:"Upscale.media", d:"تحسين جودة الصور", u:"https://www.upscale.media", c:"image", f:1},
+ {n:"Lets Enhance", d:"رفع دقة الصور القديمة", u:"https://letsenhance.io", c:"image", f:0},
+ {n:"Pixlr", d:"محرر صور أونلاين", u:"https://pixlr.com", c:"image", f:0},
+ {n:"Hotpot.ai", d:"توليد وإزالة خلفيات", u:"https://hotpot.ai", c:"image", f:0},
+ {n:"Dezgo", d:"توليد صور مجاني", u:"https://dezgo.com", c:"image", f:1},
+ {n:"Runway", d:"توليد فيديو احترافي", u:"https://runwayml.com", c:"video", f:0},
+ {n:"Pika", d:"نص أو صورة لفيديو", u:"https://pika.art", c:"video", f:0},
+ {n:"Luma Dream", d:"فيديوهات واقعية مذهلة", u:"https://lumalabs.ai/dream-machine", c:"video", f:0},
+ {n:"Kling AI", d:"فيديو سينمائي عالي الجودة", u:"https://klingai.com", c:"video", f:0},
+ {n:"Hailuo AI", d:"فيديو سريع بحركة كاميرا", u:"https://hailuoai.video", c:"video", f:0},
+ {n:"PixVerse", d:"فيديوهات قصيرة بتأثيرات", u:"https://pixverse.ai", c:"video", f:0},
+ {n:"Vidu AI", d:"فيديو بدقة عالية من صور", u:"https://www.vidu.com", c:"video", f:0},
+ {n:"Haiper", d:"فيديو مجاني جزئيًا", u:"https://haiper.ai", c:"video", f:0},
+ {n:"Genmo", d:"فيديو مفتوح المصدر مجاني", u:"https://www.genmo.ai", c:"video", f:1},
+ {n:"Kaiber", d:"فيديوهات فنية متحركة", u:"https://kaiber.ai", c:"video", f:0},
+ {n:"InVideo AI", d:"فيديو كامل بالنص", u:"https://invideo.io", c:"video", f:0},
+ {n:"Fliki", d:"نص لفيديو بأصوات واقعية", u:"https://fliki.ai", c:"video", f:0},
+ {n:"Pictory", d:"مقالات لفيديوهات جاهزة", u:"https://pictory.ai", c:"video", f:0},
+ {n:"Lumen5", d:"مدونات لفيديوهات تسويقية", u:"https://lumen5.com", c:"video", f:0},
+ {n:"Vidnoz", d:"فيديوهات بالأفاتار", u:"https://www.vidnoz.com", c:"video", f:0},
+ {n:"CapCut", d:"مونتاج ذكي مجاني", u:"https://www.capcut.com", c:"video", f:1},
+ {n:"Clipchamp", d:"مونتاج مجاني من مايكروسوفت", u:"https://clipchamp.com", c:"video", f:1},
+ {n:"Veed.io", d:"مونتاج بالنص أونلاين", u:"https://www.veed.io", c:"video", f:0},
+ {n:"Zebracat", d:"فيديوهات تسويقية من نص", u:"https://zebracat.ai", c:"video", f:0},
+ {n:"Steve.ai", d:"أنيميشن ذكي", u:"https://www.steve.ai", c:"video", f:0},
+ {n:"ElevenLabs", d:"أصوات واقعية بالعربية", u:"https://elevenlabs.io", c:"audio", f:0},
+ {n:"TTSMaker", d:"نص لصوت مجاني", u:"https://ttsmaker.com", c:"audio", f:1},
+ {n:"Suno", d:"أغانٍ كاملة بالكلمات", u:"https://suno.com", c:"audio", f:0},
+ {n:"Udio", d:"منافس Suno", u:"https://www.udio.com", c:"audio", f:0},
+ {n:"Murf AI", d:"تعليق صوتي احترافي", u:"https://murf.ai", c:"audio", f:0},
+ {n:"Play.ht", d:"140 لغة مع استنساخ صوت", u:"https://play.ht", c:"audio", f:0},
+ {n:"Speechify", d:"كتاب صوتي من أي نص", u:"https://speechify.com", c:"audio", f:0},
+ {n:"Kits.AI", d:"أدوات للموسيقيين", u:"https://kits.ai", c:"audio", f:0},
+ {n:"AIVA", d:"موسيقى سينمائية", u:"https://www.aiva.ai", c:"audio", f:0},
+ {n:"Soundraw", d:"موسيقى خلفية مخصصة", u:"https://soundraw.io", c:"audio", f:0},
+ {n:"Mubert", d:"موسيقى إلكترونية", u:"https://mubert.com", c:"audio", f:0},
+ {n:"Beatoven", d:"موسيقى بدون حقوق", u:"https://www.beatoven.ai", c:"audio", f:0},
+ {n:"Uberduck", d:"أصوات مجانية", u:"https://uberduck.ai", c:"audio", f:0},
+ {n:"FakeYou", d:"أصوات شخصيات", u:"https://fakeyou.com", c:"audio", f:0},
+ {n:"Stable Audio", d:"مؤثرات صوتية", u:"https://stableaudio.com", c:"audio", f:0},
+ {n:"Voicemod", d:"تغيير صوتك لحظيًا", u:"https://www.voicemod.net", c:"audio", f:0},
+ {n:"GitHub Copilot", d:"مساعد البرمجة الأشهر", u:"https://github.com/features/copilot", c:"code", f:0},
+ {n:"Codeium", d:"إكمال أكواد مجاني", u:"https://codeium.com", c:"code", f:1},
+ {n:"Windsurf", d:"محرر أكواد ذكي", u:"https://windsurf.com", c:"code", f:1},
+ {n:"Cursor", d:"محرر أكواد AI", u:"https://cursor.com", c:"code", f:0},
+ {n:"Replit", d:"برمجة من المتصفح", u:"https://replit.com", c:"code", f:0},
+ {n:"Blackbox AI", d:"شرح وكتابة الأكواد", u:"https://www.blackbox.ai", c:"code", f:0},
+ {n:"Phind", d:"بحث للمطورين", u:"https://www.phind.com", c:"code", f:0},
+ {n:"v0 by Vercel", d:"واجهات من وصف نصي", u:"https://v0.dev", c:"code", f:0},
+ {n:"Bolt.new", d:"تطبيقات من المتصفح", u:"https://bolt.new", c:"code", f:0},
+ {n:"Lovable", d:"من فكرة لتطبيق", u:"https://lovable.dev", c:"code", f:0},
+ {n:"Trae", d:"محرر أكواد مجاني", u:"https://www.trae.ai", c:"code", f:1},
+ {n:"CodeGeeX", d:"برمجة متعددة اللغات", u:"https://codegeex.cn", c:"code", f:1},
+ /* [21.2] fedu.ai — الأداة المميزة المدعومة رسميًا */
+ {n:"Fedu.ai", d:"منصة تعليمية ذكية مدعومة رسميًا — سجّل بحساب الوزارة أو حساب مدفوع للحصول على ميزات كاملة", u:"https://fedu.ai", c:"docs", f:1, v:1},
+ {n:"Gamma", d:"عروض تقديمية بتصميم فاخر", u:"https://gamma.app", c:"docs", f:0},
+ {n:"NotebookLM", d:"رفع ملفاتك واسألها", u:"https://notebooklm.google.com", c:"docs", f:1},
+ {n:"ChatPDF", d:"اسأل أي ملف PDF", u:"https://www.chatpdf.com", c:"docs", f:0},
+ {n:"SciSpace", d:"فهم الأوراق العلمية", u:"https://scispace.com", c:"docs", f:0},
+ {n:"Elicit", d:"بحث علمي ذكي", u:"https://elicit.com", c:"docs", f:0},
+ {n:"Consensus", d:"إجابات من الأبحاث", u:"https://consensus.app", c:"docs", f:0},
+ {n:"Humata", d:"محادثة ملفات PDF", u:"https://www.humata.ai", c:"docs", f:0},
+ {n:"ChatDOC", d:"محادثة Word وPDF", u:"https://chatdoc.com", c:"docs", f:0},
+ {n:"SlidesAI", d:"نص لعرض تقديمي", u:"https://www.slidesai.io", c:"docs", f:0},
+ {n:"Beautiful.ai", d:"عروض تلقائية", u:"https://www.beautiful.ai", c:"docs", f:0},
+ {n:"Otter.ai", d:"تفريغ صوتي للاجتماعات", u:"https://otter.ai", c:"docs", f:0},
+ {n:"Notta", d:"صوت لنص بالعربية", u:"https://www.notta.ai", c:"docs", f:0},
+ {n:"Looka", d:"شعار وهوية بصرية", u:"https://looka.com", c:"design", f:0},
+ {n:"Brandmark", d:"شعارات ذكية", u:"https://brandmark.io", c:"design", f:0},
+ {n:"Kittl", d:"تصميم جرافيك احترافي", u:"https://www.kittl.com", c:"design", f:0},
+ {n:"Uizard", d:"تصميم واجهات", u:"https://uizard.io", c:"design", f:0},
+ {n:"Relume", d:"بناء مواقع كاملة", u:"https://www.relume.io", c:"design", f:0},
+ {n:"Framer AI", d:"مواقع في دقائق", u:"https://www.framer.com", c:"design", f:0},
+ {n:"Durable", d:"موقع في 30 ثانية", u:"https://durable.co", c:"design", f:0},
+ {n:"10Web", d:"مواقع ووردبريس بالـ AI", u:"https://10web.io", c:"design", f:0},
+ {n:"Designs.ai", d:"شعارات وفيديوهات", u:"https://designs.ai", c:"design", f:0},
+ {n:"Zmo.ai", d:"صور منتجات", u:"https://zmo.ai", c:"design", f:0},
+ {n:"HeyGen", d:"أفاتار يتكلم بأي لغة", u:"https://www.heygen.com", c:"av3d", f:0},
+ {n:"Synthesia", d:"فيديوهات بأفاتار", u:"https://www.synthesia.io", c:"av3d", f:0},
+ {n:"D-ID", d:"إحياء الصور", u:"https://www.d-id.com", c:"av3d", f:0},
+ {n:"Colossyan", d:"فيديوهات تدريبية", u:"https://www.colossyan.com", c:"av3d", f:0},
+ {n:"Captions", d:"فيديو بأفاتار وترجمة", u:"https://www.captions.ai", c:"av3d", f:0},
+ {n:"Ready Player Me", d:"أفاتار 3D للألعاب", u:"https://readyplayer.me", c:"av3d", f:1},
+ {n:"Meshy", d:"موديلات 3D من نص", u:"https://www.meshy.ai", c:"av3d", f:0},
+ {n:"Tripo AI", d:"صورة لموديل 3D", u:"https://www.tripo3d.ai", c:"av3d", f:0},
+ {n:"Sloyd", d:"موديلات 3D للألعاب", u:"https://www.sloyd.ai", c:"av3d", f:0},
+ {n:"Hyper3D", d:"موديلات 3D عالية الجودة", u:"https://hyper3d.ai", c:"av3d", f:0},
+];
+
+/* ================================================================
+   [22] الحالة العامة — تُحفظ في localStorage
+   ================================================================ */
+const $ = id => document.getElementById(id);
+let favs = JSON.parse(localStorage.getItem("aihub_favs") || "[]");
+let myStats = JSON.parse(localStorage.getItem("aihub_mystats") || "{}");
+let users = JSON.parse(localStorage.getItem("aihub_users") || "[]");      /* [22.1] كل المستخدمين */
+let activities = JSON.parse(localStorage.getItem("aihub_activity") || "[]"); /* [22.2] سجل النشاطات */
+let currentUser = JSON.parse(localStorage.getItem("aihub_current") || "null"); /* [22.3] المستخدم الحالي */
+let currentCat = null;
+let currentFilter = "all";
+let accountType = null;
+let currentAdminTab = "users";
+
+/* [22.4] حساب الأدمن الثابت */
+const ADMIN = { user: "iamrtony", pass: "1234" };
+
+/* ================================================================
+   [23] دوال مساعدة
+   ================================================================ */
+const getDomain = url => url.replace(/^https?:\/\/(www\.)?/, "").split("/")[0];
+
+function avatarColor(name){
+  let h = 0;
+  for(let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
+  const palettes = [["#6d5cff","#22d3ee"],["#f472b6","#6d5cff"],["#22d3ee","#34d399"],["#f59e0b","#f472b6"]];
+  return palettes[h % palettes.length];
+}
+
+/* [23.1] تسجيل نشاط جديد في السجل */
+function logActivity(type, user, detail){
+  activities.unshift({
+    type,                                     /* نوع الحدث: login/signup/visit/fav/logout */
+    user,                                     /* اسم المستخدم */
+    detail,                                   /* تفاصيل إضافية */
+    time: new Date().toISOString(),           /* وقت الحدث */
+    ts: Date.now()
+  });
+  if(activities.length > 500) activities = activities.slice(0, 500); /* [23.2] نحتفظ بآخر 500 فقط */
+  localStorage.setItem("aihub_activity", JSON.stringify(activities));
+}
+
+/* [23.3] تنسيق التاريخ بالعربية */
+function formatTime(iso){
+  const d = new Date(iso);
+  const diff = Math.floor((Date.now() - d.getTime()) / 1000);
+  if(diff < 60) return "منذ ثوانٍ";
+  if(diff < 3600) return `منذ ${Math.floor(diff/60)} دقيقة`;
+  if(diff < 86400) return `منذ ${Math.floor(diff/3600)} ساعة`;
+  return d.toLocaleDateString("ar-EG", {day:"numeric", month:"short", hour:"2-digit", minute:"2-digit"});
+}
+
+/* ================================================================
+   [24] تسجيل الدخول الإجباري
+   ================================================================ */
+function pickAccount(type){
+  accountType = type;
+  $("accSchool").classList.toggle("active", type === "school");
+  $("accPaid").classList.toggle("active", type === "paid");
+  $("loginErr").classList.remove("show");
+}
+
+function showLoginError(msg){
+  const e = $("loginErr");
+  e.textContent = "⚠️ " + msg;
+  e.classList.add("show");
+}
+
+function doLogin(){
+  const u = $("loginUser").value.trim();
+  const p = $("loginPass").value.trim();
+
+  /* [24.1] تحقق من البيانات */
+  if(!u || !p){ showLoginError("املأ اسم المستخدم وكلمة المرور"); return; }
+  if(!accountType){ showLoginError("اختر نوع الحساب أولاً"); return; }
+
+  /* [24.2] فحص الأدمن أولاً */
+  if(u === ADMIN.user && p === ADMIN.pass){
+    const adminUser = {
+      name: u,
+      type: "admin",
+      loginTime: new Date().toISOString()
+    };
+    /* نحفظ الأدمن في قائمة المستخدمين لو مش موجود */
+    if(!users.find(x => x.name === u)){
+      users.push({...adminUser, signupTime: new Date().toISOString()});
+      localStorage.setItem("aihub_users", JSON.stringify(users));
+    }
+    currentUser = adminUser;
+    localStorage.setItem("aihub_current", JSON.stringify(currentUser));
+    logActivity("login", u, "دخول كأدمن 👑");
+    enterApp();
+    return;
+  }
+
+  /* [24.3] مستخدم عادي — نسجّله لو جديد */
+  let existing = users.find(x => x.name === u);
+  if(!existing){
+    existing = {
+      name: u,
+      type: accountType,
+      signupTime: new Date().toISOString(),
+      loginTime: new Date().toISOString(),
+      loginCount: 1
+    };
+    users.push(existing);
+    logActivity("signup", u, `مستخدم جديد (${accountType === "school" ? "🏫 وزارة" : "💎 مدفوع"})`);
+  } else {
+    /* تحديث بيانات الدخول */
+    existing.loginTime = new Date().toISOString();
+    existing.loginCount = (existing.loginCount || 0) + 1;
+    existing.type = accountType;
+  }
+  localStorage.setItem("aihub_users", JSON.stringify(users));
+
+  currentUser = { name: u, type: accountType, loginTime: new Date().toISOString() };
+  localStorage.setItem("aihub_current", JSON.stringify(currentUser));
+  logActivity("login", u, `دخول (${accountType === "school" ? "🏫 وزارة" : "💎 مدفوع"})`);
+
+  /* [24.4] رسالة ترحيب للأدوات المميزة */
+  setTimeout(() => {
+    alert(`✅ أهلاً ${u}!\n\nأنت الآن مسجّل بـ ${accountType === "school" ? "🏫 حساب الوزارة" : "💎 حساب مدفوع"}\n\n🔓 الأدوات المدعومة رسميًا أصبحت متاحة لك (زي Fedu.ai)`);
+  }, 100);
+
+  enterApp();
+}
+
+/* [24.5] الدخول للتطبيق */
+function enterApp(){
+  $("loginScreen").classList.add("hide");
+  $("mainHeader").style.display = "block";
+  $("mainFooter").style.display = "block";
+  showView("home");
+  updateUserUI();
+  renderCatBar();
+}
+
+/* [24.6] خروج */
+function logout(){
+  if(!confirm("هل تريد تسجيل الخروج؟")) return;
+  logActivity("logout", currentUser.name, "خروج");
+  localStorage.removeItem("aihub_current");
+  currentUser = null;
+  location.reload(); /* [24.7] إعادة التحميل لإظهار شاشة الدخول */
+}
+
+/* [24.8] فحص الجلسة عند فتح الصفحة */
+function checkSession(){
+  if(currentUser){
+    /* لو الأدمن سجّل دخول سابقًا — نتأكد من صلاحيته */
+    if(currentUser.type === "admin" && currentUser.name !== ADMIN.user){
+      localStorage.removeItem("aihub_current");
+      currentUser = null;
+      return;
+    }
+    enterApp();
+  }
+}
+
+/* [24.9] تحديث واجهة المستخدم */
+function updateUserUI(){
+  if(!currentUser) return;
+  const badge = $("userBadge");
+  if(currentUser.type === "admin"){
+    badge.textContent = "👑 iamrtony";
+    badge.classList.add("admin");
+    $("adminBtn").style.display = "grid";               /* [24.10] إظهار زر الأدمن */
+    $("welcomeName").textContent = "يا ملك الأدمن iamrtony 👑";
+  } else {
+    badge.textContent = `👤 ${currentUser.name}`;
+    $("welcomeName").textContent = currentUser.name;
+  }
+  $("favBadge").textContent = favs.length;
+}
+
+/* ================================================================
+   [25] شارات التحقق
+   ================================================================ */
+function verifyBadge(t){
+  if(!t.v) return "";
+  return `<span class="tag verified" title="مدعوم رسميًا">✦ مدعوم رسميًا</span>`;
+}
+
+/* ================================================================
+   [26] بطاقة الأداة
+   ================================================================ */
+function toolCard(t){
+  const cat = CATS[t.c];
+  const isFav = favs.includes(t.n);
+  const [c1, c2] = avatarColor(t.n);
+  const ini = t.n.trim()[0].toUpperCase();
+  return `<div class="tool${t.v ? ' featured' : ''}" data-tool="${t.n.replace(/"/g, "&quot;")}">
+    <div class="top">
+      <div class="logo-box">
+        <img src="https://www.google.com/s2/favicons?domain=${getDomain(t.u)}&sz=128" 
+             alt="${t.n}" loading="lazy"
+             onerror="this.outerHTML='<div class=&quot;avatar&quot; style=&quot;background:linear-gradient(135deg,${c1},${c2})&quot;>${ini}</div>'">
+      </div>
+      <div><h4>${t.n}</h4><div class="catline">${cat.icon} ${cat.name}</div></div>
+    </div>
+    <p>${t.d}</p>
+    <div class="tags">
+      <span class="tag ${t.f ? "free" : "part"}">${t.f ? "✓ مجاني بالكامل" : "◐ خطة مجانية"}</span>
+      ${verifyBadge(t)}
+    </div>
+    <div class="actions">
+      <a class="visit" href="${t.u}" target="_blank" rel="noopener" onclick="recordVisit('${t.n.replace(/'/g,"\\'")}')">زيارة الموقع ↗</a>
+      <button class="fav ${isFav ? "on" : ""}" data-name="${t.n.replace(/"/g, "&quot;")}" title="مفضلة">${isFav ? "❤️" : "🤍"}</button>
+    </div>
+  </div>`;
+}
+
+/* ================================================================
+   [27] عرض الأقسام
+   ================================================================ */
+function renderCats(){
+  $("catCount").textContent = Object.keys(CATS).length + " أقسام";
+  $("catGrid").innerHTML = Object.entries(CATS).map(([key, c]) => {
+    const tools = TOOLS.filter(t => t.c === key);
+    const freeCount = tools.filter(t => t.f).length;
+    return `<div class="cat" onclick="openCat('${key}')">
+      <div class="ic">${c.icon}</div>
+      <h3>${c.name}</h3><p>${c.desc}</p>
+      <div class="meta"><span>${tools.length} أداة · ${freeCount} مجانية</span><span class="go">استكشف ←</span></div>
+    </div>`;
+  }).join("");
+}
+
+/* [28] شريط الأقسام */
+function renderCatBar(){
+  let html = `<button class="pill ${currentCat === null ? "on" : ""}" onclick="goHome()">🏠 الرئيسية</button>`;
+  html += Object.entries(CATS).map(([key, c]) =>
+    `<button class="pill ${currentCat === key ? "on" : ""}" onclick="openCat('${key}')">${c.icon} ${c.name}</button>`
+  ).join("");
+  $("catBar").innerHTML = html;
+}
+
+/* ================================================================
+   [29] عرض أدوات القسم
+   ================================================================ */
+function renderCatGrid(){
+  const q = $("catSearch").value.trim().toLowerCase();
+  const list = TOOLS.filter(t =>
+    t.c === currentCat &&
+    (!q || t.n.toLowerCase().includes(q) || t.d.includes(q)) &&
+    (currentFilter === "all" || t.f === 1)
+  );
+  $("catCnt").textContent = list.length + " أداة";
+  $("catGrid").innerHTML = list.length
+    ? list.map(toolCard).join("")
+    : `<div class="empty">لا توجد نتائج 🔍</div>`;
+  bindFavButtons();
+}
+
+function setFilter(f, btn){
+  currentFilter = f;
+  document.querySelectorAll(".fbtn").forEach(b => b.classList.remove("on"));
+  btn.classList.add("on");
+  renderCatGrid();
+}
+
+function openCat(key){
+  currentCat = key;
+  currentFilter = "all";
+  document.querySelectorAll(".fbtn").forEach(b => b.classList.toggle("on", b.dataset.f === "all"));
+  showView("cat");
+  $("catTitle").textContent = CATS[key].icon + " " + CATS[key].name;
+  $("catDesc").textContent = CATS[key].desc;
+  $("catSearch").value = "";
+  renderCatGrid();
+  renderCatBar();
+}
+
+/* ================================================================
+   [30] المفضلة
+   ================================================================ */
+function renderFavs(){
+  const list = TOOLS.filter(t => favs.includes(t.n));
+  $("favCnt").textContent = list.length + " أداة";
+  $("favBadge").textContent = favs.length;
+  $("favGrid").innerHTML = list.length
+    ? list.map(toolCard).join("")
+    : `<div class="empty">لسه مضفتش أدوات — اضغط 🤍 في أي أداة ❤️</div>`;
+  bindFavButtons();
+}
+
+function bindFavButtons(){
+  document.querySelectorAll(".fav").forEach(btn => {
+    btn.onclick = () => toggleFav(btn.dataset.name);
+  });
+}
+
+function toggleFav(name){
+  const adding = !favs.includes(name);
+  if(adding) favs.push(name);
+  else favs = favs.filter(x => x !== name);
+  localStorage.setItem("aihub_favs", JSON.stringify(favs));
+  if(adding && currentUser) logActivity("fav", currentUser.name, `أضاف ${name} للمفضلة`);
+  document.querySelectorAll(".fav").forEach(btn => {
+    if(btn.dataset.name === name){
+      btn.classList.toggle("on", adding);
+      btn.textContent = adding ? "❤️" : "🤍";
+    }
+  });
+  $("favBadge").textContent = favs.length;
+  if($("view-fav").style.display !== "none") renderFavs();
+}
+
+/* ================================================================
+   [31] الأداة العشوائية
+   ================================================================ */
+function randomTool(){
+  const t = TOOLS[Math.floor(Math.random() * TOOLS.length)];
+  openCat(t.c);
+  setTimeout(() => {
+    const card = document.querySelector(`[data-tool="${t.n}"]`);
+    if(card){
+      card.scrollIntoView({behavior: "smooth", block: "center"});
+      card.style.borderColor = "#22d3ee";
+      setTimeout(() => card.style.borderColor = "", 2000);
+    }
+  }, 150);
+}
+
+/* ================================================================
+   [32] التنقل
+   ================================================================ */
+function showView(v){
+  ["home", "cat", "fav", "stats", "admin"].forEach(x =>
+    $("view-" + x).style.display = x === v ? "block" : "none");
+  if(v === "fav") renderFavs();
+  if(v === "stats") renderMyStats();
+  if(v === "admin"){
+    /* [32.1] تحقق: الأدمن فقط يقدر يفتح لوحة الأدمن */
+    if(!currentUser || currentUser.type !== "admin"){
+      alert("⛔ غير مصرح لك بالدخول لهذه الصفحة");
+      goHome();
+      return;
+    }
+    renderAdmin();
+  }
+  window.scrollTo({top: 0});
+}
+
+function goHome(){
+  currentCat = null;
+  showView("home");
+  renderCatBar();
+  $("searchResults").style.display = "none";
+  $("globalSearch").value = "";
+  $("navSearch").value = "";
+}
+
+/* ================================================================
+   [33] البحث الشامل
+   ================================================================ */
+function runSearch(q){
+  q = q.trim().toLowerCase();
+  const box = $("searchResults");
+  if(!q){ box.style.display = "none"; return; }
+  if($("view-home").style.display === "none"){ currentCat = null; showView("home"); renderCatBar(); }
+  box.style.display = "block";
+  const list = TOOLS.filter(t =>
+    t.n.toLowerCase().includes(q) || t.d.includes(q) || CATS[t.c].name.includes(q)
+  );
+  $("searchCount").textContent = list.length + " نتيجة";
+  $("searchGrid").innerHTML = list.length
+    ? list.map(toolCard).join("")
+    : `<div class="empty">لا توجد نتائج — جرّب كلمة تانية 🔍</div>`;
+  bindFavButtons();
+}
+
+$("globalSearch").addEventListener("input", e => {
+  runSearch(e.target.value);
+  if(e.target.value.trim()) $("searchResults").scrollIntoView({behavior: "smooth", block: "start"});
+});
+$("navSearch").addEventListener("input", e => runSearch(e.target.value));
+$("catSearch").addEventListener("input", renderCatGrid);
+
+/* ================================================================
+   [34] إحصائيات المستخدم الشخصية
+   ================================================================ */
+function recordVisit(toolName){
+  myStats[toolName] = (myStats[toolName] || 0) + 1;
+  localStorage.setItem("aihub_mystats", JSON.stringify(myStats));
+  if(currentUser) logActivity("visit", currentUser.name, `فتح أداة: ${toolName}`);
+}
+
+function renderMyStats(){
+  const entries = Object.entries(myStats).sort((a,b) => b[1] - a[1]);
+  const box = $("statsBox");
+  if(!entries.length){
+    box.innerHTML = `<div class="empty">لسه مفتحتش أي أداة — الإحصائيات هتظهر هنا 📊</div>`;
+    return;
+  }
+  const total = entries.reduce((s, [,v]) => s + v, 0);
+  const max = entries[0][1];
+  box.innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:24px">
+      <div class="kpi"><b>${total}</b><div>إجمالي مرات الفتح</div></div>
+      <div class="kpi"><b>${entries.length}</b><div>أدوات مستخدمة</div></div>
+      <div class="kpi"><b style="font-size:20px">${entries[0][0]}</b><div>الأكثر استخدامًا</div></div>
+    </div>
+    <div class="admin-panel">
+      ${entries.map(([name, count]) => `
+        <div class="chart-bar">
+          <span class="lbl">${name}</span>
+          <div class="track"><div class="fill" style="width:${(count/max*100).toFixed(1)}%"></div></div>
+          <span class="val">${count} مرة</span>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function resetMyStats(){
+  if(confirm("هل تريد مسح إحصائياتك؟")){
+    myStats = {};
+    localStorage.removeItem("aihub_mystats");
+    renderMyStats();
+  }
+}
+
+/* ================================================================
+   [35] لوحة الأدمن
+   ================================================================ */
+function renderAdmin(){
+  renderAdminKpis();
+  renderAdminTab();
+}
+
+/* [35.1] مؤشرات الأداء */
+function renderAdminKpis(){
+  const totalUsers = users.length;
+  const schoolUsers = users.filter(u => u.type === "school").length;
+  const paidUsers = users.filter(u => u.type === "paid").length;
+  const totalActivities = activities.length;
+  const totalVisits = activities.filter(a => a.type === "visit").length;
+
+  $("adminKpis").innerHTML = `
+    <div class="kpi"><div class="em">👥</div><b>${totalUsers}</b><div>إجمالي المستخدمين</div></div>
+    <div class="kpi"><div class="em">🏫</div><b>${schoolUsers}</b><div>حسابات الوزارة</div></div>
+    <div class="kpi"><div class="em">💎</div><b>${paidUsers}</b><div>حسابات مدفوعة</div></div>
+    <div class="kpi"><div class="em">📋</div><b>${totalActivities}</b><div>إجمالي النشاطات</div></div>
+    <div class="kpi"><div class="em">🛠️</div><b>${totalVisits}</b><div>فتحات الأدوات</div></div>
+  `;
+}
+
+/* [35.2] تبديل التبويبات */
+function switchTab(tab, btn){
+  currentAdminTab = tab;
+  document.querySelectorAll(".admin-tab").forEach(b => b.classList.remove("on"));
+  btn.classList.add("on");
+  renderAdminTab();
+}
+
+/* [35.3] رسم محتوى التبويب النشط */
+function renderAdminTab(){
+  const c = $("adminContent");
+  if(currentAdminTab === "users") renderUsersTab(c);
+  else if(currentAdminTab === "tools") renderToolsTab(c);
+  else if(currentAdminTab === "activity") renderActivityTab(c);
+  else if(currentAdminTab === "cats") renderCatsTab(c);
+}
+
+/* [35.4] تبويب المستخدمين */
+function renderUsersTab(c){
+  if(!users.length){
+    c.innerHTML = `<div class="empty">لا يوجد مستخدمون بعد 👥</div>`;
+    return;
+  }
+  const sorted = [...users].sort((a,b) => (b.loginCount || 0) - (a.loginCount || 0));
+  c.innerHTML = `
+    <div class="admin-tools-bar">
+      <input id="userSearch" type="text" placeholder="🔍 ابحث في المستخدمين..." oninput="filterUsers(this.value)">
+      <button class="export-btn" onclick="exportUsers()">📥 تصدير المستخدمين</button>
+    </div>
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>المستخدم</th>
+          <th>النوع</th>
+          <th>تاريخ التسجيل</th>
+          <th>عدد الدخولات</th>
+          <th>إجراء</th>
+        </tr>
+      </thead>
+      <tbody id="usersTbody">
+        ${sorted.map(u => `
+          <tr data-name="${u.name.toLowerCase()}">
+            <td>
+              <span class="row-avatar">${u.name[0].toUpperCase()}</span>
+              <b>${u.name}</b>
+            </td>
+            <td><span class="type-badge ${u.type}">${
+              u.type === "admin" ? "👑 أدمن" : u.type === "school" ? "🏫 وزارة" : "💎 مدفوع"
+            }</span></td>
+            <td style="font-size:12px;color:var(--muted)">${new Date(u.signupTime).toLocaleDateString("ar-EG")}</td>
+            <td><b style="color:var(--p2)">${u.loginCount || 1}</b></td>
+            <td>
+              ${u.name === ADMIN.user ? 
+                `<span style="color:#fbbf24;font-size:12px">🔒 محمي</span>` :
+                `<button class="del-btn" onclick="deleteUser('${u.name.replace(/'/g,"\\'")}')">🗑 حذف</button>`}
+            </td>
+          </tr>
+        `).join("")}
+      </tbody>
+    </table>
+  `;
+}
+
+/* [35.5] فلترة المستخدمين */
+function filterUsers(q){
+  q = q.toLowerCase();
+  document.querySelectorAll("#usersTbody tr").forEach(tr => {
+    tr.style.display = tr.dataset.name.includes(q) ? "" : "none";
+  });
+}
+
+/* [35.6] حذف مستخدم */
+function deleteUser(name){
+  if(!confirm(`هل تريد حذف المستخدم "${name}"؟`)) return;
+  users = users.filter(u => u.name !== name);
+  localStorage.setItem("aihub_users", JSON.stringify(users));
+  logActivity("delete", currentUser.name, `حذف المستخدم ${name}`);
+  renderAdmin();
+}
+
+/* [35.7] تبويب الأدوات الأكثر استخدامًا */
+function renderToolsTab(c){
+  /* نجمع عدد فتحات كل أداة من كل النشاطات */
+  const toolCounts = {};
+  activities.filter(a => a.type === "visit").forEach(a => {
+    const match = a.detail.match(/فتح أداة: (.+)/);
+    if(match){
+      const tool = match[1];
+      toolCounts[tool] = (toolCounts[tool] || 0) + 1;
+    }
+  });
+  const sorted = Object.entries(toolCounts).sort((a,b) => b[1] - a[1]);
+  if(!sorted.length){
+    c.innerHTML = `<div class="empty">لا توجد نشاطات فتح أدوات بعد 🛠️</div>`;
+    return;
+  }
+  const max = sorted[0][1];
+  c.innerHTML = `
+    <h3 style="margin-bottom:18px">🏆 أكثر 20 أداة استخدامًا</h3>
+    ${sorted.slice(0, 20).map(([name, count], i) => `
+      <div class="chart-bar">
+        <span class="lbl">
+          ${i < 3 ? ["🥇","🥈","🥉"][i] : `${i+1}.`} ${name}
+        </span>
+        <div class="track"><div class="fill" style="width:${(count/max*100).toFixed(1)}%"></div></div>
+        <span class="val">${count} فتحة</span>
+      </div>
+    `).join("")}
+  `;
+}
+
+/* [35.8] تبويب سجل النشاطات */
+function renderActivityTab(c){
+  if(!activities.length){
+    c.innerHTML = `<div class="empty">لا يوجد سجل نشاطات بعد 📋</div>`;
+    return;
+  }
+  const icons = {
+    login: {em: "🔐", cls: "login"},
+    signup: {em: "✨", cls: "signup"},
+    visit: {em: "🔗", cls: "visit"},
+    fav: {em: "❤️", cls: "fav"},
+    logout: {em: "🚪", cls: "login"},
+    delete: {em: "🗑", cls: "fav"}
+  };
+  c.innerHTML = `
+    <h3 style="margin-bottom:18px">📋 آخر ${activities.length} نشاط</h3>
+    ${activities.slice(0, 100).map(a => {
+      const ic = icons[a.type] || {em: "📌", cls: ""};
+      return `
+        <div class="activity-row">
+          <div class="act-icon ${ic.cls}">${ic.em}</div>
+          <div class="act-body">
+            <b>${a.user}</b>
+            <div>${a.detail}</div>
+          </div>
+          <div class="act-time">${formatTime(a.time)}</div>
+        </div>
+      `;
+    }).join("")}
+  `;
+}
+
+/* [35.9] تبويب الأقسام */
+function renderCatsTab(c){
+  const rows = Object.entries(CATS).map(([key, cat]) => {
+    const tools = TOOLS.filter(t => t.c === key);
+    const freeCount = tools.filter(t => t.f).length;
+    const verifiedCount = tools.filter(t => t.v).length;
+    return `
+      <tr>
+        <td><span style="font-size:20px">${cat.icon}</span> <b>${cat.name}</b></td>
+        <td><b style="color:var(--p2)">${tools.length}</b></td>
+        <td><b style="color:var(--green)">${freeCount}</b></td>
+        <td><b style="color:#fbbf24">${verifiedCount}</b></td>
+      </tr>
+    `;
+  }).join("");
+  c.innerHTML = `
+    <h3 style="margin-bottom:18px">📂 تفاصيل الأقسام</h3>
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>القسم</th>
+          <th>عدد الأدوات</th>
+          <th>مجاني بالكامل</th>
+          <th>موثّق رسميًا</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+}
+
+/* [35.10] تصدير بيانات المستخدمين CSV */
+function exportUsers(){
+  if(!users.length){ alert("لا يوجد مستخدمون"); return; }
+  const rows = [
+    ["الاسم", "النوع", "تاريخ التسجيل", "عدد الدخولات"],
+    ...users.map(u => [
+      u.name,
+      u.type,
+      new Date(u.signupTime).toLocaleString("ar-EG"),
+      u.loginCount || 1
+    ])
+  ];
+  const csv = rows.map(r => r.map(x => `"${x}"`).join(",")).join("\n");
+  downloadCSV(csv, "users.csv");
+}
+
+/* [35.11] تصدير كل البيانات */
+function exportAllData(){
+  const data = {
+    users,
+    activities,
+    totalTools: TOOLS.length,
+    totalCats: Object.keys(CATS).length,
+    exportedAt: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `aihub-backup-${Date.now()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* [35.12] تنزيل ملف CSV */
+function downloadCSV(csv, filename){
+  const BOM = "\uFEFF"; /* [35.13] BOM لدعم العربية في Excel */
+  const blob = new Blob([BOM + csv], {type: "text/csv;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* [35.14] مسح كل البيانات */
+function clearAllData(){
+  if(!confirm("⚠️ هل أنت متأكد؟ سيتم مسح كل المستخدمين والنشاطات!")) return;
+  if(!confirm("⚠️ تأكيد أخير: لا يمكن التراجع!")) return;
+  users = [];
+  activities = [];
+  localStorage.removeItem("aihub_users");
+  localStorage.removeItem("aihub_activity");
+  renderAdmin();
+  alert("✅ تم مسح البيانات");
+}
+
+/* ================================================================
+   [36] الوضع الليلي / النهاري
+   ================================================================ */
+function toggleTheme(){
+  document.body.classList.toggle("light-mode");
+  const isLight = document.body.classList.contains("light-mode");
+  $("themeBtn").textContent = isLight ? "☀️" : "🌙";
+  localStorage.setItem("aihub_theme", isLight ? "light" : "dark");
+}
+if(localStorage.getItem("aihub_theme") === "light"){
+  document.body.classList.add("light-mode");
+  $("themeBtn").textContent = "☀️";
+}
+
+/* ================================================================
+   [37] قائمة المستخدم (اختصار)
+   ================================================================ */
+function toggleUserMenu(){
+  /* [37.1] لو مش أدمن، الضغط على الشارة يفتح تأكيد الخروج */
+  if(currentUser && currentUser.type !== "admin"){
+    if(confirm(`${currentUser.name} — هل تريد تسجيل الخروج؟`)) logout();
+  } else {
+    if(confirm("هل تريد تسجيل الخروج من حساب الأدمن؟")) logout();
+  }
+}
+
+/* [38] زر العودة لأعلى */
+window.addEventListener("scroll", () =>
+  $("toTop").classList.toggle("show", window.scrollY > 500));
+
+/* ================================================================
+   [39] التشغيل الأول
+   ================================================================ */
+renderCats();
+checkSession();  /* [39.1] فحص الجلسة — لو مسجّل يدخل مباشرة، لو لأ يعرض شاشة الدخول */
+$("stTools").textContent = TOOLS.length;
+$("totalTools").textContent = TOOLS.length;
+$("stCats").textContent = Object.keys(CATS).length;
+</script>
+</body>
+</html>
